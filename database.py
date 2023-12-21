@@ -1,6 +1,7 @@
 from deta import Deta
+import streamlit as st
 
-DETA_KEY = 'e05tk7pvmwm_oYyv95xX692hVNP2J9L4rEBYH1YsncWm'
+DETA_KEY = st.secrets['DETA_KEY']
 
 deta = Deta(DETA_KEY)
 
@@ -12,3 +13,6 @@ def inserir(item, comentario, comprado = False):
 def retorna_dados():
     res = db.fetch()
     return res.items
+
+def deleta(item):
+    db.delete(item)

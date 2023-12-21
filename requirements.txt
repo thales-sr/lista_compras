@@ -3,3 +3,4 @@ xlrd
 plotly
 streamlit
 openpyxl
+deta

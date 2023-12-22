@@ -15,14 +15,22 @@ with st.expander('Cadastro'):
     
 dados = database.retorna_dados()
 
-df_dados = pd.DataFrame(dados)
-df_dados = df_dados[['comprado', 'key', 'comentario']]
+if dados:
+    df_dados = pd.DataFrame(dados)
+    df_dados = df_dados[['comprado', 'key', 'comentario']]
 
-dados_editados = st.data_editor(df_dados)
+    dados_editados = st.data_editor(df_dados)
 
-# st.write(dados_editados.to_dict(orient='records'))
+    atualizar = st.button('Atualizar dados')
+    if atualizar:
+        for index, value in dados_editados.iterrows():
+            database.inserir(item = value['key'], comentario = value['comentario'], comprado = value['comprado'])
+            
+    apagar = st.button('Limpar lista')
+    if apagar:
+        for index, value in dados_editados.iterrows():
+            database.deleta(item = value['key'])
+        st.rerun()
 
-atualizar = st.button('Atualizar dados')
-if atualizar:
-    for index, value in dados_editados.iterrows():
-        database.inserir(item = value['key'], comentario = value['comentario'], comprado = value['comprado'])
+else:
+    st.write('Lista vazia')
